@@ -1,0 +1,44 @@
+Description: >-
+  O Amazon Data Lifecycle Manager oferece uma maneira simples e automatizada de
+  fazer backup  de dados armazenados em volumes do Amazon EBS e Inst?ncias ec2.
+Resources:
+  BasicLifecyclePolicy:
+    Type: 'AWS::DLM::LifecyclePolicy'
+    Properties:
+      Description: DLM Lifecycle Policy - Stack
+      State: ENABLED
+      ExecutionRoleArn: !Sub >-
+        arn:aws:iam::${AWS::AccountId}:role/service-role/AWSDataLifecycleManagerDefaultRoleForAMIManagement
+      Tags:
+        - Key: Owner
+          Value: mail@xyz.com
+        - Key: Source
+          Value: 'https://github.com/witaloandrade/aws-dlm'
+        - Key: StackName
+          Value: !Ref 'AWS::StackName'
+        - Key: StackId
+          Value: !Ref 'AWS::StackId'
+      PolicyDetails:
+        Parameters:
+          NoReboot: true
+        ResourceTypes:
+          - INSTANCE
+        PolicyType: IMAGE_MANAGEMENT
+        TargetTags:
+          - Key: Snapshot-Daily
+            Value: 'Yes'
+        Schedules:
+          - Name: Daily AMI
+            CreateRule:
+              Interval: 24
+              IntervalUnit: HOURS
+              Times:
+                - '23:00'
+            RetainRule:
+              Count: !Ref BackupRetainRule
+            CopyTags: true
+Parameters:
+  BackupRetainRule:
+    Type: Number
+    Default: '5'
+    Description: Quantidade de backups para reter.
