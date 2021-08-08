@@ -1,3 +1,5 @@
+[![git_capa](git_capa.jpg)](https://www.youtube.com/channel/UCKNbFi55znAEztGwHzrVfCw)
+
 # DLM Lifecycle Policy
 
 Você pode usar o Amazon Data Lifecycle Manager para automatizar a criação, retenção e exclusão de snapshots EBS e AMIs apoiados por EBS. Quando você automatiza o gerenciamento de instantâneos e AMI, isso o ajuda a:
